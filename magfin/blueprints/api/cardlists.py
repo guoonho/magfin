@@ -10,9 +10,6 @@ def lists_add():
     if request.method != 'POST':
         return abort(400)
     elif request.method == 'POST':
-        if request.get_json() == None:
-            return abort(400)
-        else:
-            return list_from_json(request.get_json())
+        return list_from_req(request)
     else:
         return abort(400)
