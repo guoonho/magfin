@@ -1,7 +1,7 @@
 from flask import Blueprint, abort, jsonify
 from datetime import date, datetime
-from shared.models import db
-from card.models import Card
+from magfin.models.card.card import Card
+from magfin.db_setup import db_session
 
 api_cards = Blueprint('api_cards','__name__')
 
@@ -14,8 +14,8 @@ def card_add(card_name):
                 name=card_name,
                 addDate=datetime.now()
                 )
-        db.session.add(card)
-        db.session.commit()
+        db_session.add(card)
+        db_session.commit()
         return 'Successfully added %s to the database.' % card_name
     else:
         return 'Card %s already exists in database.' % card_name
