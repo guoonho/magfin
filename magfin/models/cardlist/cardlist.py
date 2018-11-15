@@ -13,7 +13,10 @@ class CardList(Base):
 
     def __init__(self, name=None, cards=None, createDate=None):
         self.name = name
-        self.cards = cards
+        if cards == None:
+            self.cards = []
+        else:
+            self.cards = cards
         if createDate == None:
             self.createDate = date.now()
         else:

@@ -140,6 +140,9 @@ def cardlist_modify(req):
         return 'blah'
 
 def cardlist_getAll():
+    """TODO:
+        
+    """
     try:
         cardlists = []
         #query = CardList.query.join(CardList.cards).all()
@@ -151,4 +154,29 @@ def cardlist_getAll():
         traceback.print_exc()
         return abort(400)
     return abort(400)
+
+def cardlist_getID(listID):
+    """TODO:
+    
+    """
+    try:
+        query_cardlist = CardList.query.filter(CardList.id == listID).first()
+        if query_cardlist == None:
+            return 'ERROR: No card list found with given ID.'
+        else:
+            query_cards = Card.query.filter(Card.cardlist_id == listID).all()
+            if query_cards == None:
+                return jsonify(query_cardlist.as_dict())
+            else:
+                cards = []
+                for card in query_cards:
+                    cards.append(card.as_dict())
+                cardlist = query_cardlist.as_dict()
+                cardlist['cards'] = cards
+                return jsonify(cardlist)
+    except:
+        traceback.print_exc()
+        return abort(400)
+    return abort(400)
+
 

@@ -35,9 +35,16 @@ def lists_delete():
 def lists_getAll():
     if request.method != "GET":
         return abort(400)
-    elif request.method =="GET":
+    elif request.method == "GET":
         return cardlist_getAll()
     else:
         return abort(400)
 
-
+@api_cardlists.route('/lists/get/<listID>', methods=['GET'])
+def lists_getID(listID):
+    if request.method != "GET":
+        return abort(400)
+    elif request.method == "GET":
+        return cardlist_getID(listID)
+    else:
+        return abort(400)

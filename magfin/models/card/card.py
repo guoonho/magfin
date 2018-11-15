@@ -4,7 +4,7 @@ from magfin.db_setup import Base
 class Card(Base):
     __tablename__ = 'card'
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(150), unique=True, nullable=False)
+    name = Column(String(150), unique=False, nullable=False)
     addDate = Column(DateTime(), unique=False, nullable=False)
     cardlist_id = Column(Integer, ForeignKey('cardlist.id'))
 
@@ -18,3 +18,6 @@ class Card(Base):
     
     def __repr__(self):
         return '<ID: {}, Name: {}, CardList ID: {}>'.format(self.id, self.name, self.cardlist_id)
+
+    def as_dict(self):
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
