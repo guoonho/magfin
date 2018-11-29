@@ -139,6 +139,23 @@ def cardlist_modify(req):
             print(test)
         return 'blah'
 
+def cardlist_delete(listID):
+    """TODO:
+    """
+    try:
+        cardlists = []
+        query = CardList.query.filter(CardList.id == listID).first()
+        if query != None:
+            db_session.delete(query)
+            db_session.commit()
+            return 'Delete finished.'
+        else:
+            return 'No cardlist found with specified ID.'
+    except:
+        traceback.print_exc()
+        print("igot here")
+    return abort(400)
+
 def cardlist_getAll():
     """TODO:
         
@@ -149,7 +166,7 @@ def cardlist_getAll():
         query = CardList.query.all()
         for cardlist in query:
             cardlists.append(cardlist.as_dict())
-        return jsonify(cardlists)
+        return jsonify({'cardlists': cardlists})
     except:
         traceback.print_exc()
         return abort(400)
@@ -178,5 +195,4 @@ def cardlist_getID(listID):
         traceback.print_exc()
         return abort(400)
     return abort(400)
-
 

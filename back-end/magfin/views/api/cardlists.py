@@ -1,4 +1,4 @@
-from flask import Blueprint, abort, jsonify, request
+from flask import Blueprint, abort, jsonify, request, Response
 from magfin.funcs.manage import *
 
 api_cardlists = Blueprint('api_cardlists', '__name__')
@@ -22,12 +22,12 @@ def lists_modify():
     else:
         return abort(400)
 
-@api_cardlists.route('/lists/delete', methods=['POST'])
-def lists_delete():
-    if request.method != "POST":
+@api_cardlists.route('/lists/delete/<listID>', methods=['DELETE'])
+def lists_delete(listID):
+    if request.method != "DELETE":
         return abort(400)
-    elif request.method == "POST":
-        return cardlist_delete(request)
+    elif request.method == "DELETE":
+        return cardlist_delete(listID)
     else:
         return abort(400)
 
@@ -46,5 +46,14 @@ def lists_getID(listID):
         return abort(400)
     elif request.method == "GET":
         return cardlist_getID(listID)
+    else:
+        return abort(400)
+
+@api_cardlists.route('/lists/fetch/<listID>', methods=['GET'])
+def lists_fetch(listID):
+    if request.method != "GET":
+        return abort(400)
+    elif request.method == "GET":
+        return 'WIP'
     else:
         return abort(400)
