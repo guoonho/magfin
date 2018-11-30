@@ -12,11 +12,18 @@ class MagFin extends React.Component {
         this.state = {
             error: null,
             cardlist: null,
+            curList: null,
             isLoaded: false
         };
+
+        this.handleClick = this.handleClick.bind(this);
     }
     
     componentDidMount() {
+        this.fetchLists();
+    }
+
+    fetchLists() {
         fetch(API + QUERY_LISTS, {
             method: "GET",
             headers: {
@@ -34,27 +41,33 @@ class MagFin extends React.Component {
             }))
     }
 
+    handleClick() {
+        this.setState(state => ({
+            isLoaded: false
+        }));
+        this.fetchLists();
+    }
+
     render() {
         return (
-            <div className="cardlist-table">
-                <h1>MagFin</h1>
+            <div className="magfin">
+                <div className="magfin-header">
+                    <div className="magfin-header-logo">
+                        magfin
+                    </div>
+                </div>
                 <div className ="cardlist-update-wrapper">
-                    <UpdateCardLists />
+                    <button className="cardlist-update-button" onClick={this.handleClick}>
+                        <h2>Refresh Lists</h2>
+                    </button>
                 </div>
                 <div className="cardlist-table-wrapper">
                     <CardListTable cardlists={this.state.cardlists} isLoaded={this.state.isLoaded} />
                 </div>
+                <div className="current-cardlist-wrapper">
+                    <CardList cardlists={this.state.cardlists} curList={this.state.curList} />
+                </div>
             </div>
-        )
-    }
-}
-
-class UpdateCardLists extends React.Component {
-    render() {
-        return (
-            <button className = "cardlist-update-button">
-            <h2>Fetch New Prices</h2>
-            </button>
         )
     }
 }
@@ -64,7 +77,7 @@ class CardListTable extends React.Component {
         if (this.props.isLoaded === false) {
             return (
                 <div className="loading-wrapper">
-                    Loading...
+                    <h1>Loading...</h1>
                 </div>
             )
         }
@@ -72,14 +85,20 @@ class CardListTable extends React.Component {
             var lists = this.props.cardlists.map(function (curList) {
                 return (
                     <tr>
-                        <th>{curList.name}</th>
-                        <th>{curList.createDate}</th>
+                        <td>{curList.name}</td>
+                        <td>N/A</td>
+                        <td>{curList.createDate}</td>
                     </tr>
                 )
             })
             return (
                 <div>
-                    <table>
+                    <table className="cardlist-table">
+                    <tr className="cardlist-table-header">
+                        <th>List Name</th>
+                        <th>Current Market Value</th>
+                        <th>Add Date</th>
+                    </tr>
                         { lists }
                     </table>
                 </div>
@@ -93,6 +112,18 @@ class CardListTable extends React.Component {
             )
         }
 }}
+
+class CardList extends React.Component {
+
+
+    render() {
+        return (
+            <div>
+                {this.props.curList}
+            </div>
+        )    
+    }
+}
 
 // ============
 

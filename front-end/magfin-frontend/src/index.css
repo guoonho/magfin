@@ -1,20 +1,74 @@
 body {
-    
+    background: #F0F0F0;
+    font-family: sans-serif;
 }
 
-.cardlist-table {
-    border: 1px solid #999
+.magfin {
+    background: #fff;
+    min-width: 600px;
+    max-width: 800px;
+    min-height: 800px;
+    border: 0px solid #000;
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    box-shadow: 0px 0px 4px #000;
+    margin: auto;
+}
+
+.magfin-header  { 
+    background: #0099ff;
+    border-radius: 6px 6px 0px 0px;
+    -moz-border-radius: 6px 6px 0px 0px;
+}
+
+.magfin-header-logo {
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .cardlist-update-wrapper {
-    background: #00FFCD;
-    border: 1px solid #00FFCD;
+    padding-top: 15px;
+    text-align: center;
+}
+
+.cardlist-update-button {
+    width: 250px;
 }
 
 .cardlist-table-wrapper {
-   background: #FFF; 
+   padding-top:  15px;
 }
 
 .cardlist-table {
+    /*border: 1px solid #f0f0f0;*/
+    border-collapse: separate;
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+    margin: auto;
+    padding: 5px;
+}
+
+.loading-wrapper {
+    text-align: center;
+}
+
+.cardlist-table tr {
+    border: 1px solid #0066ff;
+}
+
+.cardlist-table th {
+    border-bottom: 1px solid #000;
+    text-align: center;
+}
+
+.cardlist-table td {
+    text-align: center;
+}
+
+.cardlist-table-header {
 
 }
