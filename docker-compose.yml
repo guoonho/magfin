@@ -1,20 +1,32 @@
 version: '3.1'
 services:
-        mongo:
-                image: mongo
-                restart: always
-                environment:
-                        MONGO_INITDB_ROOT_USERNAME: root
-                        MONGO_INITDB_ROOT_PASSWORD: example
-                ports:
-                        - 27017:27017
-                volumes:
-                        - /mnt/magfin/mongo/datadir:/data/db
+    mongo:
+        image: mongo
+        container_name: mongo
+        restart: always
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: root
+            MONGO_INITDB_ROOT_PASSWORD: example
+        ports:
+            - 27017:27017
+        volumes:
+            - /mnt/magfin/mongo/datadir:/data/db
 
-        dbint:
-                image: kchan/magfin_dbinterface:dev
-                ports:
-                        - 8080:8080
-                depends_on:
-                        - mongo
-                command: ["./wait-for-it.sh", "mongo:27017", "--", "npm", "start"]
+    backend:
+        image: kchan/magfin_backend:dev
+        container_name: backend
+        ports:
+            - 8080:8080
+        depends_on:
+            - mongo
+        command: ["./wait-for-it.sh", "mongo:27017", "--", "npm", "start"]
+
+    frontend:
+        image: kchan/magfin_frontend:dev 
+        container_name: frontend
+        ports:
+            - 8081:3000
+        depends_on:
+            - backend
+        volumes:
+            - ./frontend/src:/usr/src/app/src

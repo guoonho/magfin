@@ -15,7 +15,8 @@ const typeDefs = gql`
     }
     type Query {
         "A simple type"
-        cards: [Card]
+        cards(listId: String!): [Card]
+        allCards: [Card]
         cardLists: [CardList]
     }
     type Mutation {
@@ -28,8 +29,15 @@ const typeDefs = gql`
 
 const resolvers = {
     Query: {
-        cards: async () => {
+        allCards: async () => {
             let response = await Card.find({}).exec()
+            return response
+        },
+        cards(obj, args, context, info) {
+            let response = Card.find({
+                listId: args.listId
+            })
+            .exec()
             return response
         },
         cardLists: async () => {
@@ -49,7 +57,6 @@ const resolvers = {
         },
         cardLists: async(_, args) => {
             try {
-                //let response = await CardList.create(args);
                 let response;
                 var cardlist = new CardList(args);
                 response = cardlist.save();
@@ -78,8 +85,17 @@ const resolvers = {
 };
 
 const app = express();
-const server = new ApolloServer({ typeDefs, resolvers });
-server.applyMiddleware({ app });
+const server = new ApolloServer({ 
+    typeDefs, 
+    resolvers 
+});
+server.applyMiddleware({
+    app,
+    cors: {
+        origin: '*',
+        credentials: true
+    }
+});
 app.listen({ port: 8080 }, () =>
   console.log(`🚀 Server ready at http://localhost:8080${server.graphqlPath}`)
 );
