@@ -17,7 +17,7 @@ class ListPage extends React.Component {
         return (
             <div>
                 <div className="cardlist-table-wrapper">
-                    <CardListTable cardlists={this.props.cardLists} />
+                    test
                 </div>
             </div>
         )

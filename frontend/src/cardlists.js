@@ -19,12 +19,10 @@ class CardListsPage extends React.Component {
     }
 
     componentDidMount() {
-        console.log("CardListsPage mounted");
         this.fetchLists();
     }
 
     fetchLists() {
-        console.log("I was asked to fetch lists");
         this.props.apollo.query({
             query: gql`
                 {
@@ -37,10 +35,9 @@ class CardListsPage extends React.Component {
             fetchPolicy: 'network-only',
         })
         .then(result => {
-            console.log(result);
             this.setState({
                 isLoaded: true,
-                cardlist: result.data
+                cardlist: result.data.cardLists
             });
         })
         .catch(error => this.setState({
@@ -50,9 +47,6 @@ class CardListsPage extends React.Component {
     }
 
     render() {
-        console.log("CardListPage got back the following props:");
-        console.log(this.props);
-
         if (this.state.isLoaded === false) {
             return (
                 <div className="loading-wrapper">
@@ -74,9 +68,8 @@ class CardListsPage extends React.Component {
 
 class CardListTable extends React.Component {
     render() {
-        console.log(this.state);
-        if (this.state.cardlist) {
-            var lists = this.state.cardlist.map(function (curList) {
+        if (this.props.cardlists) {
+            var lists = this.props.cardlists.map(function (curList) {
                 return (
                     <tr>
                         <td>{curList.name}</td>
