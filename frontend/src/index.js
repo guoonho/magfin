@@ -10,7 +10,6 @@ import {
 } from "react-router-dom";
 import { Query } from "react-apollo";
 import ApolloClient from "apollo-boost";
-import './style.css';
 import CardListsPage from "./cardlists.js";
 import ListPage from "./listpage.js";
 

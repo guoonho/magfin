@@ -5,7 +5,6 @@ import {
     BrowserRouter as Router,
     Link
 } from "react-router-dom";
-import './style.css';
 
 class CardListsPage extends React.Component {
     constructor(props) {

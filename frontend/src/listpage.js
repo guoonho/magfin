@@ -4,7 +4,6 @@ import {
     BrowserRouter as Router,
     Link
 } from "react-router-dom";
-import './style.css';
 
 class ListPage extends React.Component {
     ComponentDidMount() {
@@ -17,7 +16,7 @@ class ListPage extends React.Component {
         return (
             <div>
                 <div className="cardlist-table-wrapper">
-                    test
+                    I'm at the individual list page.
                 </div>
             </div>
         )
