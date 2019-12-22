@@ -1,26 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import gql from "graphql-tag";
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
-    Link,
-    useParams
+    Route
 } from "react-router-dom";
-import { Query } from "react-apollo";
+import Magfin from "./magfin.js";
 import ApolloClient from "apollo-boost";
-import CardListsPage from "./cardlists.js";
-import ListPage from "./listpage.js";
 
-const GET_CARDLISTS = gql`
-    query {
-        cardlists {
-            _id
-            name
-        }
-    }
-`;
 const apollo = new ApolloClient({
     uri: "http://localhost:8080/graphql",
     defaultOptions: {
@@ -30,7 +17,7 @@ const apollo = new ApolloClient({
     }
 });
 
-class MagFin extends React.Component {
+class App extends React.Component {
     constructor(props) {
         super(props);
 
@@ -49,14 +36,13 @@ class MagFin extends React.Component {
                     <div className="magfin">
                         <div className="magfin-header">
                             <div className="magfin-header-logo">
-                                magfin
+                                magfin yo
                             </div>
                         </div>
                         <Switch>
                             <Route exact path="/">
-                                <CardListsPage apollo={apollo} />
+                                <Magfin apollo={apollo} />
                             </Route>
-                            <Route path="/list/:listId" children={<ListPage />} />
                         </Switch>
                     </div>
                 </Router>
@@ -67,6 +53,6 @@ class MagFin extends React.Component {
 // ============
 
 ReactDOM.render(
-    <MagFin />,
+    <App />,
     document.getElementById('root')
 )
