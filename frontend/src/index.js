@@ -1,58 +1,64 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState } from 'react';
+import { render } from 'react-dom';
+import { ApolloClient } from 'apollo-boost';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { HttpLink } from 'apollo-link-http';
+import { ApolloProvider } from '@apollo/react-hooks';
 import {
     BrowserRouter as Router,
     Switch,
-    Route
+    Route,
+    Link
 } from "react-router-dom";
-import Magfin from "./magfin.js";
-import ApolloClient from "apollo-boost";
+import Lists from './pages/lists.js';
 
-const apollo = new ApolloClient({
-    uri: "http://localhost:8080/graphql",
-    defaultOptions: {
-        query: {
-            fetchPolicy: 'network-only'
-        }
-    }
+const cache = new InMemoryCache();
+const link = new HttpLink({
+    uri: 'http://localhost:8080/graphql'
+});
+const client = new ApolloClient({
+    cache,
+    link
 });
 
-class App extends React.Component {
-    constructor(props) {
-        super(props);
+const App = () => (
+    <ApolloProvider client={client}>
+        <Router>
+            <div>
+                <h2>🚀 magfin 🚀</h2>
+            </div>
+            <div>
+                <nav>
+                    <ul>
+                        <li><Link to="/">Home</Link></li>
+                        <li><Link to="/list">Lists</Link></li>
+                    </ul>
+                </nav>
 
-        this.state = {
-            error: null,
-            isLoaded: false
-        };
-    }
-    
-    componentDidMount() {
-    }
+                <Switch>
+                    <Route exact path="/">
+                        <Example />
+                    </Route>
+                    <Route exact path="/list">
+                        <Lists />
+                    </Route>
+                </Switch>
+            </div>
+        </Router>
+    </ApolloProvider>
+);
 
-    render() {
-            return (
-                <Router>
-                    <div className="magfin">
-                        <div className="magfin-header">
-                            <div className="magfin-header-logo">
-                                magfin yo
-                            </div>
-                        </div>
-                        <Switch>
-                            <Route exact path="/">
-                                <Magfin apollo={apollo} />
-                            </Route>
-                        </Switch>
-                    </div>
-                </Router>
-            )
-    }
+function Example() {
+    const [count, setCount] = useState(0);
+
+    return (
+        <div>
+            <p> yoyoyo {count} </p>
+            <button onClick={() => setCount(count+1)}>
+                click me
+            </button>
+        </div>
+    );
 }
 
-// ============
-
-ReactDOM.render(
-    <App />,
-    document.getElementById('root')
-)
+render(<App />, document.getElementById('root'));
