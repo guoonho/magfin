@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { useQuery, useMutation } from '@apollo/react-hooks';
+import { Link } from 'react-router-dom';
 import gql from 'graphql-tag';
 
 const GET_LISTS = gql`
@@ -20,6 +21,10 @@ const ADD_CARD_LIST = gql`
     }
 `;
 
+function listIdLink(listId) {
+    return `/list/${listId}`;
+}
+
 export default function Lists() {
     let input;
     const { data, loading, error, refetch } = useQuery(
@@ -37,7 +42,7 @@ export default function Lists() {
                 data.cardLists.map(({ _id, name }) => (
                     <div key={_id}>
                         <p>
-                            {name}: {_id}
+                            <Link to={listIdLink(_id)}>{name}: {_id}</Link>
                         </p>
                     </div>
                 ))
