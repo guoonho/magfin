@@ -8,9 +8,11 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
+    Link,
+    useParams
 } from "react-router-dom";
 import Lists from './pages/lists.js';
+import CardList from './pages/cardlist.js';
 
 const cache = new InMemoryCache();
 const link = new HttpLink({
@@ -42,11 +44,19 @@ const App = () => (
                     <Route exact path="/list">
                         <Lists />
                     </Route>
+                    <Route exact path="/list/:listId">
+                        <CardListWrapper />
+                    </Route>
                 </Switch>
             </div>
         </Router>
     </ApolloProvider>
 );
+
+function CardListWrapper() {
+    let { listId } = useParams();
+    return CardList(listId);
+}
 
 function Example() {
     const [count, setCount] = useState(0);

@@ -10,7 +10,7 @@ services:
         ports:
             - 27017:27017
         volumes:
-            - /mnt/magfin/mongo/datadir:/data/db
+            - ./mongo/datadir:/data/db
 
     backend:
         image: kchan/magfin_backend:dev

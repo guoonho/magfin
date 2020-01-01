@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const cardSchema = new Schema({
+    id: String,
     name: String,
     edition: String,
     listId: String

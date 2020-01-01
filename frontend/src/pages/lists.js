@@ -21,6 +21,12 @@ const ADD_CARD_LIST = gql`
     }
 `;
 
+const REMOVE_CARD_LIST = gql`
+    mutation DeleteList($listId: String!) {
+        deleteList(listId: $listId)
+    }
+`;
+
 function listIdLink(listId) {
     return `/list/${listId}`;
 }
@@ -32,6 +38,7 @@ export default function Lists() {
         { fetchPolicy: "network-only" }
     );
     const [addCardList, { addData }] = useMutation(ADD_CARD_LIST);
+    const [removeCardList, { removeData }] = useMutation(REMOVE_CARD_LIST);
 
     if (loading) return <p>Loading lists...</p>;
     if (error) return <p>ERROR LOADING LISTS</p>;
@@ -44,6 +51,14 @@ export default function Lists() {
                         <p>
                             <Link to={listIdLink(_id)}>{name}: {_id}</Link>
                         </p>
+                        <button
+                            onClick={e => {
+                                removeCardList({ variables: { listId: _id} });
+                                refetch();
+                            }}
+                        >
+                            X
+                        </button>
                     </div>
                 ))
             }

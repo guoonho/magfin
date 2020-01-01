@@ -5,6 +5,7 @@ const { Card, CardList } = require('./src/models.js');
 
 const typeDefs = gql`
     type Card {
+        _id: String
         name: String!
         edition: String!
         listId: String
@@ -22,6 +23,8 @@ const typeDefs = gql`
     type Mutation {
         cards(name: String!, edition: String!, listId: String!): Card
         cardLists(name: String!): CardList 
+        deleteCard(cardId: String!): Int
+        deleteList(listId: String!): Int
         deleteAllCards: Int
         deleteAllCardLists: Int
     }
@@ -61,6 +64,38 @@ const resolvers = {
                 var cardlist = new CardList(args);
                 response = cardlist.save();
                 return response;
+            } catch(e) {
+                return e.message;
+            }
+        },
+        deleteCard: async (_, args) => {
+            try {
+                console.log(args);
+                let response = await Card.remove({
+                    _id: args.cardId
+                })
+                .exec()
+                console.log(response);
+                return response.deletedCount
+            } catch(e) {
+                return e.message;
+            }
+        },
+        deleteList: async (_, args) => {
+            try {
+                let cardDeleteResponse = await Card.remove({
+                    listId: args.listId
+                })
+                .exec()
+                if (cardDeleteResponse.ok == 1) {
+                    let response = await CardList.remove({
+                        _id: args.listId
+                    })
+                    .exec()
+                    return response.deletedCount
+                } else {
+                    throw "Unable to delete list."
+                }
             } catch(e) {
                 return e.message;
             }
