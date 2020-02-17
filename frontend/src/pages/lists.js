@@ -45,42 +45,54 @@ export default function Lists() {
 
     return (
         <Fragment>
-            {data.cardLists &&
-                data.cardLists.map(({ _id, name }) => (
-                    <div key={_id}>
-                        <p>
-                            <Link to={listIdLink(_id)}>{name}: {_id}</Link>
-                        </p>
-                        <button
-                            onClick={e => {
-                                removeCardList({ variables: { listId: _id} });
-                                refetch();
-                            }}
-                        >
-                            X
-                        </button>
-                    </div>
-                ))
-            }
-            {data.cardLists && (
-                <div>
-                    <form
-                        onSubmit={e => {
-                            e.preventDefault();
-                            addCardList({ variables: { name: input.value } });
-                            input.value = '';
-                            refetch();
-                        }}
-                    >
-                        <input
-                            ref={node => {
-                                input = node;
-                            }}
-                        />
-                        <button type="submit">Add List</button>
-                    </form>
-                </div>
-            )}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {data.cardLists &&
+                        data.cardLists.map(({ _id, name }) => (
+                            <tr key={_id}>
+                                <td>
+                                    <Link to={listIdLink(_id)}>{name}</Link>
+								</td>
+								<td>
+									<button
+										onClick={e => {
+											removeCardList({ variables: { listId: _id} });
+											refetch();
+										}}
+									>
+										X
+									</button>
+								</td>
+                            </tr>
+                        ))
+                    }
+				</tbody>
+			</table>
+                    {data.cardLists && (
+                        <div>
+                            <form
+                                onSubmit={e => {
+                                    e.preventDefault();
+                                    addCardList({ variables: { name: input.value } });
+                                    input.value = '';
+                                    refetch();
+                                }}
+                            >
+                                <input
+                                    ref={node => {
+                                        input = node;
+                                    }}
+                                />
+                                <button type="submit">Add List</button>
+                            </form>
+                        </div>
+                    )}
         </Fragment>
     );
 }

@@ -51,24 +51,35 @@ export default function CardList(listId) {
 
     return (
         <Fragment>
-            <p>Hello {listId}</p>
-            {data.cards &&
-                data.cards.map(({ _id, name, edition }) => (
-                    <div key={_id}>
-                        <p>
-                            Name: {name}, Edition: {edition}, id: {_id}
-                        </p>
-                        <button
-                            onClick={e => {
-                                removeCard({ variables: { cardId: _id } });
-                                refetch();
-                            }}
-                        >
-                            X
-                        </button>
-                    </div>
-                ))
-            }
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Edition</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {data.cards &&
+                        data.cards.map(({ _id, name, edition }) => (
+                            <tr key={_id}>
+                                <td>{name}</td>
+                                <td>{edition}</td>
+                                <td>
+                                    <button
+                                        onClick={e => {
+                                            removeCard({ variables: { cardId: _id } });
+                                            refetch();
+                                        }}
+                                    >
+                                        X
+                                    </button>
+                                </td>
+                            </tr>
+                        ))
+                    }
+                </tbody>
+            </table>
             {data.cards && (
                 <div>
                     <h2>Add Card </h2>
